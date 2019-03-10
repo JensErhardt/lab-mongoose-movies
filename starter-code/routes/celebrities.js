@@ -55,4 +55,31 @@ router.get('/:id/delete', (req, res, next) => {
     });
 });
 
+router.get('/:id/edit', (req, res, next) => {
+  const id = req.params.id;
+
+  Celebrity.findById(id)
+    .then(() => {
+      res.render("celebrities/edit");
+    })
+    .catch(err => {
+      next();
+      return err;
+    });
+});
+
+router.post('/:id', (req, res, next) => {
+  const { name, occupation, catchPhrase } = req.body;
+  const id = req.params.id;
+
+  Celebrity.findByIdAndRemove(id, { name, occupation, catchPhrase })
+    .then(() => {
+      res.redirect("/celebrities");
+    })
+    .catch(err => {
+      next();
+      return err;
+    });
+});
+
 module.exports = router;
