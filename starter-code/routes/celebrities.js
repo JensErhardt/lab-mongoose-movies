@@ -13,4 +13,15 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id', (req, res, next) => {
+  const id = req.params.id;
+
+  Celebrity.findById(id)
+    .then(celebrity =>  res.render("celebrities/show",celebrity))
+    .catch(err => {
+      next();
+      return err;
+    });
+});
+
 module.exports = router;
